@@ -3,12 +3,13 @@ import HomePage from '../pages/HomePage.vue';
 import QuizPage from '../pages/QuizPage.vue';
 import Summary from '../pages/Summary.vue';
 import UserInfos from '../pages/UserInfos.vue';
+import CraftsmanPage from '../pages/CraftsmanPage.vue';
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: '/',
+      path: '/home',
       name: 'home',
       component: HomePage,
     },
@@ -26,6 +27,11 @@ const router = createRouter({
       path: '/user-infos',
       name: 'userInfos',
       component: UserInfos,
+    },
+    {
+      path: '/craftsman',
+      name: 'craftsman',
+      component: CraftsmanPage,
     },
   ],
 });

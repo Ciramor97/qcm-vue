@@ -3,7 +3,7 @@
     <div class="py-4 flex md:flex-row flex-col justify-center gap-4 mx-30 px-10">
       <div class="md:w-2/3 w-full bg-white shadow-custom rounded-lg md:p-4 p-2">
         <EmptyImg  class="w-full h-auto" />
-        <!-- <img class="bg-gray-400" :src="empty" alt="Summary" /> -->
+        <!-- <img class="bg-light-gray-400" :src="empty" alt="Summary" /> -->
         <h1 class="font-semibold text-lg py-4">Bon à savoir</h1>
         <p class="font-semibold text-[12px] text-justify">
           Vous faites face à des WC bouchés qui ne se vident plus correctement ?

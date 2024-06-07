@@ -58,5 +58,6 @@ const typeOfProblem = [
 
 onMounted(() => {
   useAnswerStore().cleanState(null);
+  useAnswerStore().getAnswers();
 });
 </script>

@@ -9,16 +9,16 @@
           : 'Chauffage'
       "
     />
-    <div class="bg-primary mt-2 text-center p-1 text-white font-bold text-sm">
+    <div class="bg-roseLight mt-2 text-center p-1 text-white font-bold text-sm">
       {{ problem }}
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import Plomberie from '../components/icons/Plomberie.vue';
-import Electricite from '../components/icons/Electricite.vue';
-import Chauffage from '../components/icons/Chauffage.vue';
+import Plomberie from "../components/icons/Plomberie.vue";
+import Electricite from "../components/icons/Electricite.vue";
+import Chauffage from "../components/icons/Chauffage.vue";
 
 const props = defineProps<{
   problem: string;

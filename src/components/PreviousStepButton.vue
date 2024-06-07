@@ -1,15 +1,22 @@
 <template>
-  <button class="py-4 px-6 border rounded-[43px] border-primary flex">
-    <ArrowLeftOutline />
-    <span class="text-primary ml-3 font-semibold">{{ label }}</span>
+  <button
+    class="lg:p-0 md:p-3 p-2 text-sm rounded-[43px] flex items-center hover:bg-rose"
+    :class="
+      withBorder
+        ? 'text-roseLight bg-white border-roseLight border'
+        : 'text-white bg-roseLight'
+    "
+  >
+    <slot> </slot>
+
+    <span class="ml-1 font-semibold">{{ label }}</span>
   </button>
 </template>
 
 <script setup lang="ts">
-import ArrowLeftOutline from '../components/icons/ArrowLeftOutline.vue';
-
-const props = defineProps<{
+defineProps<{
   label: string;
+  withBorder: boolean;
 }>();
 </script>
 

@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from '../pages/Home.vue';
-import InitialProblem from '../pages/InitialProblem.vue';
+import HomePage from '../pages/HomePage.vue';
+import QuizPage from '../pages/QuizPage.vue';
+import Summary from '../pages/Summary.vue';
+import UserInfos from '../pages/UserInfos.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -8,12 +10,22 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: Home,
+      component: HomePage,
     },
     {
-      path: '/init/:id?',
-      name: 'initial',
-      component: InitialProblem,
+      path: '/quiz/:id?',
+      name: 'quiz',
+      component: QuizPage,
+    },
+    {
+      path: '/summary',
+      name: 'summary',
+      component: Summary,
+    },
+    {
+      path: '/user-infos',
+      name: 'userInfos',
+      component: UserInfos,
     },
   ],
 });

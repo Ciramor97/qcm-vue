@@ -1,37 +1,180 @@
-import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { defineStore } from "pinia";
+import { ref, reactive } from "vue";
 
-interface Answer {
-  questionId: number;
-  answerId: number;
-  answerLabel: string;
-}
+type UserInfos = {
+  email: string;
+  firstname: string;
+  lastname: string;
+  postalCode: string;
+  phone: string;
+  adress: string;
+  payment_mode: string;
+};
 
-export const useAnswerStore = defineStore('answer', () => {
+type FormDataType = {
+  userInfos: UserInfos | null;
+  quizAnswers: { [key: string]: string } | null;
+};
+export const useAnswerStore = defineStore("answer", () => {
+  const formData = reactive<FormDataType>({
+    userInfos: null,
+    quizAnswers: null,
+  });
+  const items = reactive([
+    {
+      id: 1,
+      question: "Où se situe votre problème ?",
+      answers: [
+        {
+          id: 2,
+          label: "WC",
+        },
+        {
+          id: 3,
+          label: "Douche/Baignoire",
+        },
+      ],
+    },
+    {
+      id: 2,
+      question: "Quelle est la nature de votre problème ?",
+      answers: [
+        {
+          id: 5,
+          label: "Engorgement (WC bouchés)",
+        },
+        {
+          id: 6,
+          label: "Fuite (recherche de fuite)",
+        },
+      ],
+    },
+    {
+      id: 3,
+      question: "Quelle est la nature de votre problème ?",
+      answers: [
+        {
+          id: 7,
+          label: "Engorgement (Douches bouchés)",
+        },
+        {
+          id: 8,
+          label: "Douche à nettoyer",
+        },
+      ],
+    },
+    {
+      id: 5,
+      question: "Votre WC possède t-il un sanibroyeur ?",
+      answers: [
+        {
+          id: 9,
+          label: "Oui",
+        },
+        {
+          id: 10,
+          label: "Non",
+        },
+      ],
+    },
+  ]);
+  let tab = [];
 
- const answers = ref<Answer[]>([])
-  
- function addAnswer(questionId: number, answerId: number, answerLabel: string) {
-      answers.value.push({ questionId, answerId, answerLabel });
+  let actualItem = reactive(items[0]);
+
+  function addAnswer(id: number, label: string) {
+    console.log("[Add answers avant===]", formData.quizAnswers);
+
+    formData.quizAnswers = formData.quizAnswers ?? {};
+    // console.log(
+    //   "Apres===",
+    //   formData.quizAnswers,
+    //   "==id==",
+    //   id,
+    //   "==label==",
+    //   label
+    // );
+
+    formData.quizAnswers[id] = label;
+    console.log("[Add answersapres===]", formData.quizAnswers);
+    tab.push(id);
   }
 
-function getAnswers() {
-    return answers.value;
+  function cleanState(id) {
+    console.log("idCleanState==", id);
+
+    if (!id) {
+      tab = [];
+      formData.quizAnswers = {};
+      return;
+    }
+    if (tab.includes(id)) {
+      const idx = tab.findIndex((el) => el === id);
+
+      if (idx !== tab.length - 1) {
+        const ids = tab.filter((_, index) => {
+          return index > idx;
+        });
+
+        ids.forEach((id) => {
+          if (formData.quizAnswers) {
+            delete formData.quizAnswers[id];
+          }
+        });
+        tab = tab.filter((el, index) => {
+          return index <= idx;
+        });
+      }
+    }
   }
 
- function getAnswer(questionId: number) {
-    return answers.value.find(answer => answer.questionId === questionId);
+  function setUserInfos(user: UserInfos) {
+    formData.userInfos = { ...user };
+  }
+  function loadQuiz(id: number) {
+    console.log("loadquiz==", id);
+    console.log(
+      "Test test ===",
+      items.find((item) => item.id == 2)
+    );
+
+    const data = items.find((item) => item.id == id);
+    console.log("data==", data);
+
+    if (data) {
+      actualItem = { ...data };
+    }
+    console.log("actualItem LoadQuiz", actualItem);
   }
 
- function removeAnswer(questionId: number) {
-    answers.value = answers.value.filter(answer => answer.questionId !== questionId);
+  function getAnswers() {
+    return formData.quizAnswers;
+  }
+
+  function submitForm() {
+    try {
+      console.log("===all data in store==", formData);
+    } catch (error) {
+      console.log("error", error);
+    }
+  }
+
+  function removeAnswer(id: number) {
+    if (formData.quizAnswers && formData.quizAnswers[id]) {
+      delete formData.quizAnswers[id];
+    }
   }
 
   return {
-   answers,
-   addAnswer,
-   getAnswer,
-   getAnswers,
-   removeAnswer
+    setUserInfos,
+    addAnswer,
+    removeAnswer,
+    getAnswers,
+    loadQuiz,
+    submitForm,
+    cleanState,
+    actualItem,
+    items,
+    formData,
   };
 });

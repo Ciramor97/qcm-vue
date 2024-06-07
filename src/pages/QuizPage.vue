@@ -66,72 +66,71 @@ const router = useRouter();
 const route = useRoute();
 const answerStore = useAnswerStore();
 
-const routeId = ref(route.params.id || 1);
-const items = reactive([
-  {
-    id: 1,
-    question: "Où se situe votre problème ?",
-    answers: [
-      {
-        id: 2,
-        label: "WC",
-      },
-      {
-        id: 3,
-        label: "Douche/Baignoire",
-      },
-    ],
-  },
-  {
-    id: 2,
-    question: "Quelle est la nature de votre problème ?",
-    answers: [
-      {
-        id: 5,
-        label: "Engorgement (WC bouchés)",
-      },
-      {
-        id: 6,
-        label: "Fuite (recherche de fuite)",
-      },
-    ],
-  },
-  {
-    id: 3,
-    question: "Quelle est la nature de votre problème ?",
-    answers: [
-      {
-        id: 7,
-        label: "Engorgement (Douches bouchés)",
-      },
-      {
-        id: 8,
-        label: "Douche à nettoyer",
-      },
-    ],
-  },
-  {
-    id: 5,
-    question: "Votre WC possède t-il un sanibroyeur ?",
-    answers: [
-      {
-        id: 9,
-        label: "Oui",
-      },
-      {
-        id: 10,
-        label: "Non",
-      },
-    ],
-  },
-]);
+const routeId = ref(route.params.id || 1); // replace 1 by the first quiz id
+// const items = reactive([
+//   {
+//     id: 1,
+//     question: "Où se situe votre problème ?",
+//     answers: [
+//       {
+//         id: 2,
+//         label: "WC",
+//       },
+//       {
+//         id: 3,
+//         label: "Douche/Baignoire",
+//       },
+//     ],
+//   },
+//   {
+//     id: 2,
+//     question: "Quelle est la nature de votre problème ?",
+//     answers: [
+//       {
+//         id: 5,
+//         label: "Engorgement (WC bouchés)",
+//       },
+//       {
+//         id: 6,
+//         label: "Fuite (recherche de fuite)",
+//       },
+//     ],
+//   },
+//   {
+//     id: 3,
+//     question: "Quelle est la nature de votre problème ?",
+//     answers: [
+//       {
+//         id: 7,
+//         label: "Engorgement (Douches bouchés)",
+//       },
+//       {
+//         id: 8,
+//         label: "Douche à nettoyer",
+//       },
+//     ],
+//   },
+//   {
+//     id: 5,
+//     question: "Votre WC possède t-il un sanibroyeur ?",
+//     answers: [
+//       {
+//         id: 9,
+//         label: "Oui",
+//       },
+//       {
+//         id: 10,
+//         label: "Non",
+//       },
+//     ],
+//   },
+// ]);
 
-let currentQuiz = reactive(items[0]);
+let currentQuiz = reactive(answerStore.items[0]);
 
 function selectAnswer(id: string, label: string) {
   // const foundItem = items.find((item) => item.id == id); //back request to get the new items object
   console.log("id");
-
 
   //keep it
   answerStore.addAnswer(id, label);
@@ -169,11 +168,15 @@ watch(
 );
 
 function loadQuiz(id: number) {
-  const data = items.find((item) => item.id == id);
+  console.log("answerStore.items==", answerStore.items);
+
+  const data = answerStore.items.find((item) => item.id == id);
+  console.log("data=loadquiz", data);
 
   if (data) {
-    currentQuiz = { ...data };
+    currentQuiz = data;
   }
+  console.log("data=loadquiz currentQuiz==", currentQuiz);
 }
 
 onMounted(() => {

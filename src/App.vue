@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import FormLayout from './layouts/FormLayout.vue';
-import HomePageLayout from './layouts/HomePageLayout.vue';
-import { RouterView, useRoute } from 'vue-router';
+import FormLayout from "./layouts/FormLayout.vue";
+import HomePageLayout from "./layouts/HomePageLayout.vue";
+import { RouterView, useRoute } from "vue-router";
 
 const route = useRoute();
 </script>
@@ -11,7 +11,7 @@ const route = useRoute();
     <RouterView />
   </FormLayout>
 
-  <HomePageLayout v-if="route.name=='home'">
+  <HomePageLayout v-if="route.name == 'home'">
     <RouterView />
   </HomePageLayout>
 </template>

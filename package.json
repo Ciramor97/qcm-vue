@@ -9,10 +9,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@formkit/themes": "^1.6.5",
+    "@formkit/vue": "^1.6.5",
+    "axios": "^1.7.2",
     "pinia": "^2.1.7",
+    "pinia-plugin-persistedstate": "^3.2.1",
     "vee-validate": "^4.13.0",
     "vue": "^3.4.27",
     "vue-router": "^4.3.2",
+    "vue-toastification": "^2.0.0-rc.5",
     "yup": "^1.4.0"
   },
   "devDependencies": {

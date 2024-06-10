@@ -3,7 +3,9 @@
     class="bg-secondary w-full h-full flex flex-col items-center rounded-t-lg"
   >
     <div class="pt-20 flex flex-col items-center">
-      <h1 class="text-4xl font-bold text-white">Mon problème concerne :</h1>
+      <h1 class="md:text-4xl font-bold text-white text-center text-xl">
+        Mon problème concerne :
+      </h1>
       <div class="py-6">
         <Separator color="#FFF" />
       </div>
@@ -12,7 +14,7 @@
         @click="
           router.push({
             name: 'quiz',
-            params: { id: 1 },
+            params: { id: '66663358c71ed5439e6bb6f0' },
           })
         "
       >
@@ -41,7 +43,8 @@ import Chauffage from "../components/icons/Chauffage.vue";
 import Serrurerie from "../components/icons/Serrurerie.vue";
 import Vitrerie from "../components/icons/Vitrerie.vue";
 import Electromenager from "../components/icons/Electromenager.vue";
-import { useAnswerStore } from "../store/answer";
+
+import { useQuizStore } from "../store";
 
 import { useRouter } from "vue-router";
 
@@ -57,7 +60,7 @@ const typeOfProblem = [
 ];
 
 onMounted(() => {
-  useAnswerStore().cleanState(null);
-  useAnswerStore().getAnswers();
+  useQuizStore().cleanState(null);
+  useQuizStore().getQuiz();
 });
 </script>

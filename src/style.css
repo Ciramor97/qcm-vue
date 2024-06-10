@@ -9,10 +9,13 @@
     font-weight: 400;
     font-display: swap;
     color: rgba(68, 61, 60, 1);
-    src: url(/fonts/Roboto.woff2) format('woff2');
   } */
   html, body {
     @apply text-secondary;
+    
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
   }
 }
 

@@ -1,6 +1,5 @@
 <template>
   <button
-    :disabled="isDisabled"
     class="lg:p-2 md:p-3 p-2 text-sm rounded-[43px] flex sm:gap-2 md:flex-row items-center hover:text-light-pink justify-center"
     :class="
       withBorder
@@ -15,16 +14,6 @@
 </template>
 
 <script setup lang="ts">
-import { useIsFormDirty, useIsFormValid } from "vee-validate";
-import { computed } from "vue";
-
-const isDirty = useIsFormDirty();
-const isValid = useIsFormValid();
-
-const isDisabled = computed(() => {
-  return !isDirty.value || !isValid.value;
-});
-
 defineProps<{
   label: string;
   withBorder: boolean;

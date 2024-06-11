@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref, reactive, computed } from "vue";
+import { ref, reactive } from "vue";
 import axiosInstance from "../api/index";
 import { UserInfos, Quiz, Order } from "../types/index";
 
@@ -94,6 +94,7 @@ export const useQuizStore = defineStore(
       makeOrder,
       cleanState,
       items,
+      tab,
       quizData,
     };
   },

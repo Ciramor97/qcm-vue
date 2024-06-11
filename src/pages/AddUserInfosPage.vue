@@ -258,7 +258,6 @@
               <PreviousStepButton
                 :with-border="true"
                 label="Etape précédente"
-                :disabled="false"
                 @click.prevent="router.back()"
                 ><ArrowLeftOutline
               /></PreviousStepButton>
@@ -374,7 +373,6 @@ async function onSubmit(values, { resetForm }) {
   }
   // console.log("SUBMIT VALUE==", v, "useTerms==", useTerms.value);
 
-  resetForm();
   useTerms.value = [];
   errorUseTermMessage.value = null;
   answerStore.setUserInfos(values);
@@ -384,6 +382,7 @@ async function onSubmit(values, { resetForm }) {
       timeout: 1500,
     });
     router.push({ name: "home" });
+    resetForm();
   }
 }
 </script>

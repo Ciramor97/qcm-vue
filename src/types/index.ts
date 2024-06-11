@@ -2,7 +2,7 @@ type UserInfos = {
   email: string;
   firstname: string;
   lastname: string;
-  postalCode: string;
+  postalCode: number;
   phone: string;
   adress: string;
   payment_mode: string;

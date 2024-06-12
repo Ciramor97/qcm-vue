@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { mount } from "@vue/test-utils";
-import AnswerCard from "./AnswerCard.vue";
+import AnswerCard from "../AnswerCard.vue";
 
 describe("AnswerCard Component", () => {
   const wrapper = mount(

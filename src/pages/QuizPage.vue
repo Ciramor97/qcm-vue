@@ -9,13 +9,13 @@
       <Separator color="#FF445F" />
     </div>
     <div class="bg-white px-8 py-[38px] mx-10 my-4 rounded-lg shadow-custom">
-      <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-2 list-none">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-2 list-none">
         <AnswerCard
           v-for="item in currentQuiz.answers"
           :item="item.label"
           @click="selectAnswer(item.id, item.label)"
         />
-      </ul>
+      </div>
       <PreviousStepButton
         :with-border="true"
         label="Etape précédente"
@@ -51,29 +51,30 @@
 </template>
 
 <script setup lang="ts">
-import Separator from "../components/icons/Separator.vue";
-import AnswerCard from "../components/AnswerCard.vue";
-import PreviousStepButton from "../components/Button.vue";
-import Check from "../components/icons/Check.vue";
 import { reactive, onMounted, watch, ref } from "vue";
-import ArrowLeftOutline from "../components/icons/ArrowLeftOutline.vue";
 
-import { useQuizStore } from "../store";
+import Separator from "../components/icons/Separator.vue";
+import ArrowLeftOutline from "../components/icons/ArrowLeftOutline.vue";
+import Check from "../components/icons/Check.vue";
+import PreviousStepButton from "../components/Button.vue";
+import AnswerCard from "../components/AnswerCard.vue";
+
+import { useOrderStore } from "../store/index";
 
 import { useRouter, useRoute } from "vue-router";
 
 const router = useRouter();
 const route = useRoute();
-const answerStore = useQuizStore();
+const orderStore = useOrderStore();
 
 const routeId = ref(route.params.id || "66663358c71ed5439e6bb6f0"); // replace 1 by the first quiz id
 
-let currentQuiz = reactive(answerStore.items[0]);
+let currentQuiz = reactive(orderStore.items[0]);
 
 function selectAnswer(id: string, label: string) {
-  answerStore.addAnswer(currentQuiz.id, label);
+  orderStore.addAnswer(currentQuiz.id, label);
 
-  if (answerStore.items.some((q) => q.parentAnswer == id)) {
+  if (orderStore.items.some((q) => q.parentAnswer == id)) {
     router.push({ name: "quiz", params: { id } });
   } else {
     router.push({ name: "summary" });
@@ -86,11 +87,11 @@ watch(
     console.log(`new Id is ${newId}`);
 
     loadQuiz(newId as string);
-    //  answerStore.cleanState(newId);
-    answerStore.cleanState(currentQuiz.id);
+    //  orderStore.cleanState(newId);
+    orderStore.cleanState(currentQuiz.id);
     console.log(
-      "==== answerStore.quizData.quizAnswers",
-      answerStore.quizData.quizAnswers
+      "==== orderStore.orderData.quizAnswers",
+      orderStore.orderData.quizAnswers
     );
   },
   {
@@ -99,14 +100,14 @@ watch(
 );
 
 function loadQuiz(id: string) {
-  const isFirstQuiz = answerStore.items.find(
+  const isFirstQuiz = orderStore.items.find(
     (item) => item.id == id
   )?.parentAnswer;
 
   if (isFirstQuiz === null) {
-    currentQuiz = answerStore.items[0];
+    currentQuiz = orderStore.items[0];
   } else {
-    const data = answerStore.items.find((item) => item.parentAnswer == id);
+    const data = orderStore.items.find((item) => item.parentAnswer == id);
     console.log("data=loadquiz", data);
 
     if (data) {

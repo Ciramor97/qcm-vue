@@ -1,26 +1,25 @@
 import { defineStore } from "pinia";
-import { ref, reactive } from "vue";
+import { reactive, ref } from "vue";
 import axiosInstance from "../api/index";
-import { UserInfos, Quiz, CreateOrder } from "../types/index";
-
-export const useQuizStore = defineStore(
-  "quiz",
+import { UserInfos, CreateOrder } from "../types/index";
+import { useQuizStore } from "./quiz";
+import { PLOMBERIE_ID } from "../constants";
+export const useOrderStore = defineStore(
+  "order",
   () => {
-    const quizData = reactive<CreateOrder>({
+    const quizStore = useQuizStore();
+    const items = ref(quizStore.items);
+    const orderData = reactive<CreateOrder>({
       userInfos: null,
       quizAnswers: null,
     });
     let tab: string[] = [];
 
-    let items = ref<Quiz[]>([]);
-
-    const PLOMBERIE_ID = "66663358c71ed5439e6bb6f0";
-
     function addAnswer(quizId: string, label: string) {
-      quizData.quizAnswers = quizData.quizAnswers ?? {};
+      orderData.quizAnswers = orderData.quizAnswers ?? {};
 
-      quizData.quizAnswers[quizId] = label;
-      console.log("[ quizData.quizAnswers]==", quizData.quizAnswers);
+      orderData.quizAnswers[quizId] = label;
+      console.log("[ orderData.quizAnswers]==", orderData.quizAnswers);
 
       tab.push(quizId);
       //tab.push(id);
@@ -32,7 +31,7 @@ export const useQuizStore = defineStore(
 
       if (!id) {
         tab = [];
-        quizData.quizAnswers = {};
+        orderData.quizAnswers = {};
         return;
       }
       if (tab.includes(id) || id == PLOMBERIE_ID) {
@@ -44,8 +43,8 @@ export const useQuizStore = defineStore(
           });
 
           ids.forEach((id) => {
-            if (quizData.quizAnswers) {
-              delete quizData.quizAnswers[id];
+            if (orderData.quizAnswers) {
+              delete orderData.quizAnswers[id];
             }
           });
           tab = tab.filter((_, index) => {
@@ -57,33 +56,13 @@ export const useQuizStore = defineStore(
     }
 
     function setUserInfos(user: UserInfos) {
-      quizData.userInfos = { ...user };
-    }
-
-    async function getQuiz() {
-      try {
-        const { data } = await axiosInstance.get("/quiz");
-        console.log("data from server==", data[0].id);
-        //replace test by items
-        items.value = data.map((quiz) => ({
-          id: quiz._id,
-          parentAnswer: quiz.parentAnswer,
-          question: quiz.label,
-          answers: [...quiz.answers].map((answer) => ({
-            id: answer._id,
-            label: answer.label,
-          })),
-        }));
-        console.log("data from server MAP", items.value);
-
-        return items.value;
-      } catch (error) {}
+      orderData.userInfos = { ...user };
     }
 
     async function makeOrder() {
       try {
         const response = await axiosInstance.post("/order", {
-          ...quizData,
+          ...orderData,
         });
         return response;
       } catch (error) {
@@ -111,19 +90,18 @@ export const useQuizStore = defineStore(
     return {
       setUserInfos,
       addAnswer,
-      getQuiz,
       cleanState,
       makeOrder,
       getOrderList,
       getOrder,
-      items,
       tab,
-      quizData,
+      orderData,
+      items,
     };
   },
   {
     persist: {
-      key: "quiz-key",
+      key: "store-key",
     },
   }
 );

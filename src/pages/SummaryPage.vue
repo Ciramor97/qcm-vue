@@ -1,8 +1,10 @@
 <template>
   <div class="bg-[#F2F2F2] flex flex-col py-20 md:px-12 lg:px-[150px]">
-    <div class="py-4 flex md:flex-row flex-col justify-center gap-4 mx-30 px-10">
+    <div
+      class="py-4 flex md:flex-row flex-col justify-center gap-4 mx-30 px-10"
+    >
       <div class="md:w-2/3 w-full bg-white shadow-custom rounded-lg md:p-4 p-2">
-        <EmptyImg  class="w-full h-auto" />
+        <EmptyImg class="w-full h-auto" />
         <!-- <img class="bg-light-gray-400" :src="empty" alt="Summary" /> -->
         <h1 class="font-semibold text-lg py-4">Bon à savoir</h1>
         <p class="font-semibold text-[12px] text-justify">
@@ -18,14 +20,11 @@
           "Débouchage de WC" comprend les prestations suivantes :
           <br />
           <br />
-          <ul>
-            <li v-for="item in usersAnswers">{{ item }}</li>
-          </ul>
           - Les frais de déplacement et de main-d'œuvre,
           <br />
           <br />
-          - La fourniture du matériel (pompe manuelle, acides, furet électrique,
-          etc)
+          - La fourniture du matériel (pompe manuelle, acides, furet
+          électrique,etc)
           <br />
           <br />
           - Le débouchage des WC,
@@ -45,18 +44,20 @@
       </div>
       <div class="md:w-1/3 w-full">
         <div class="bg-pink shadow-custom p-4">
-          <h1 class="text-light-pink text-base md:text-xl lg:text-2xl font-semibold">
+          <h1
+            class="text-light-pink text-base md:text-xl lg:text-2xl font-semibold"
+          >
             Réparation d’une fuite de la vanne principale ou avant la vanne
           </h1>
           <ul class="py-6 text-sm flex flex-col space-y-1">
             <InterventionInfo
-            v-for="item in interventionInfos"
-            :key="item.label"
-            :icon="item.icon"
-            :label="item.label"
-        />
+              v-for="item in interventionInfos"
+              :key="item.label"
+              :icon="item.icon"
+              :label="item.label"
+            />
           </ul>
-          <PreviousButton
+          <Button
             :withBorder="false"
             label="Demander une intervention"
             @click="router.push({ name: 'user-infos.add' })"
@@ -78,32 +79,21 @@
 </template>
 
 <script setup lang="ts">
-import {computed} from "vue"
+import EuroIcon from "../components/icons/EuroIcon.vue";
+import CircleCheckIcon from "../components/icons/CircleCheckIcon.vue";
 import InterventionInfo from "../components/InterventionInfo.vue";
-
-import EuroCircle from "../components/icons/EuroCircle.vue";
-import CircleValidation from "../components/icons/CircleValidation.vue";
-import PreviousButton from "../components/Button.vue";
+import Button from "../components/Button.vue";
 import EmptyImg from "../components/icons/EmptyImg.vue";
 import { useRouter } from "vue-router";
 
-import { useQuizStore } from "../store"
-
-const answerStore = useQuizStore();
-
-const usersAnswers = computed(()=>{
-  if(answerStore.quizData.quizAnswers)
-  return Object.values(answerStore.quizData.quizAnswers)
-})
 const router = useRouter();
 
 const interventionInfos = [
-  { icon: EuroCircle, label: "Entre 150€ et 300€ TTC" },
-  { icon: CircleValidation, label: "Gros matériel" },
-  { icon: CircleValidation, label: "Déplacement" },
-  { icon: CircleValidation, label: "Petites fournitures" },
-  { icon: CircleValidation, label: "Nettoyage du chantier" },
-  { icon: CircleValidation, label: "Main d’oeuvre" },
+  { icon: EuroIcon, label: "Entre 150€ et 300€ TTC" },
+  { icon: CircleCheckIcon, label: "Gros matériel" },
+  { icon: CircleCheckIcon, label: "Déplacement" },
+  { icon: CircleCheckIcon, label: "Petites fournitures" },
+  { icon: CircleCheckIcon, label: "Nettoyage du chantier" },
+  { icon: CircleCheckIcon, label: "Main d'oeuvre" },
 ];
-
 </script>

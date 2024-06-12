@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-[#F2F2F2] flex flex-col h-full py-20 md:px-12 lg:px-[150px]">
+  <div class="bg-[#F2F2F2] flex flex-col py-20 md:px-12 lg:px-[150px]">
     <div class="pt-4 gap-3 mb-3 flex flex-col items-center">
       <h1
         class="text-black text-2xl md:text-[34px] leading-[51px] font-bold text-center"
@@ -20,7 +20,7 @@
         >
         <span class="font-semibold text-lg">Informations du client</span>
       </h1>
-      <div class="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4 py-2">
+      <div class="grid gap-2 md:grid-cols-2 md:gap-4 py-2">
         <div>
           <p>Nom</p>
           <p class="text-sm">{{ order.user.firstname }}</p>
@@ -58,15 +58,15 @@
   </div>
 </template>
 <script setup lang="ts">
-import Separator from "../components/icons/Separator.vue";
 import { onMounted, ref } from "vue";
-import { useQuizStore } from "../store";
 import { GetOrder } from "../types";
+import Separator from "../components/icons/Separator.vue";
 
+import { useOrderStore } from "../store/index";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
-const answerStore = useQuizStore();
+const answerStore = useOrderStore();
 
 const order = ref<GetOrder | null>(null);
 

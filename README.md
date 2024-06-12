@@ -1,5 +1,36 @@
-# Vue 3 + TypeScript + Vite
+# Qualification d'un chantier de dépannage
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## Preview
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+if you had like to try it just CLICK THE IMAGE BELOW  
+[![App de qualification](/assets/images/goweb.PNG "Aller sur le site")](https://ciramor97.github.io/X-GIL-LAB-TEST/)
+
+## Setup
+
+<!-- ``` -->
+
+git clone https://github.com/Ciramor97/qcm-vue.git
+
+cd qcm-vue
+
+To install packages:
+
+- Run `npm i`
+
+To start the project:
+
+- Run `npm run dev `
+
+To run unit test:
+
+- Run `npm run test `
+
+Go to http://localhost:5173/home
+
+<!-- ``` -->
+
+## Usage and Operations
+
+- Go to http://localhost:5173/home and start
+- Go to http://localhost:5173/order-list to see order list
+- Go to details to get in touch user and see quiz answers

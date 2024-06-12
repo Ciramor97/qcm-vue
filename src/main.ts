@@ -7,14 +7,12 @@ import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 
-const options = {};
-
 const app = createApp(App);
 
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
 app.use(router);
 app.use(pinia);
-app.use(Toast, options);
+app.use(Toast);
 
 app.mount("#app");

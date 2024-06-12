@@ -10,10 +10,9 @@
     "test": "vitest --dom"
   },
   "dependencies": {
-    "@formkit/themes": "^1.6.5",
-    "@formkit/vue": "^1.6.5",
     "@vitejs/plugin-vue": "^5.0.5",
     "axios": "^1.7.2",
+    "dayjs": "^1.11.11",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",
     "vee-validate": "^4.13.0",

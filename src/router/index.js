@@ -3,7 +3,8 @@ import HomePage from '../pages/HomePage.vue';
 import QuizPage from '../pages/QuizPage.vue';
 import SummaryPage from '../pages/SummaryPage.vue';
 import AddUserInfosPage from '../pages/AddUserInfosPage.vue';
-import CraftsmanPage from '../pages/CraftsmanPage.vue';
+import OrderListPage from '../pages/OrderListPage.vue';
+import OrderDetailsPage from '../pages/OrderDetailsPage.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -29,9 +30,14 @@ const router = createRouter({
       component: AddUserInfosPage,
     },
     {
-      path: '/craftsman',
-      name: 'craftsman',
-      component: CraftsmanPage,
+      path: '/order-list',
+      name: 'order-list',
+      component: OrderListPage,
+    },
+    {
+      path: '/order-details/:id',
+      name: 'order-details',
+      component: OrderDetailsPage,
     },
   ],
 });

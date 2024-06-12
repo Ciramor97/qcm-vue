@@ -9,6 +9,7 @@
       <div class="py-6">
         <Separator color="#FFF" />
       </div>
+      <!-- improve: replace id string by const -->
       <ul
         class="grid grid-cols-2 md:grid-cols-3 mb-20 gap-4 hover:cursor-pointer list-none"
         @click="

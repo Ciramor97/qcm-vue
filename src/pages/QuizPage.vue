@@ -71,17 +71,7 @@ const routeId = ref(route.params.id || "66663358c71ed5439e6bb6f0"); // replace 1
 let currentQuiz = reactive(answerStore.items[0]);
 
 function selectAnswer(id: string, label: string) {
-  answerStore.addAnswer(id, label);
-  // console.log(
-  //   "TEST ULTIME==",
-  //   id,
-  //   "===",
-  //   "answerStore.items==",
-  //   answerStore.items,
-  //   answerStore.items.map((q) => q.parentAnswer),
-  //   "hum==",
-  //   answerStore.items.map((q) => q.parentAnswer).includes(id)
-  // );
+  answerStore.addAnswer(currentQuiz.id, label);
 
   if (answerStore.items.some((q) => q.parentAnswer == id)) {
     router.push({ name: "quiz", params: { id } });
@@ -96,8 +86,12 @@ watch(
     console.log(`new Id is ${newId}`);
 
     loadQuiz(newId as string);
-    answerStore.cleanState(newId);
-    console.log("====", answerStore.quizData.quizAnswers);
+    //  answerStore.cleanState(newId);
+    answerStore.cleanState(currentQuiz.id);
+    console.log(
+      "==== answerStore.quizData.quizAnswers",
+      answerStore.quizData.quizAnswers
+    );
   },
   {
     immediate: true,

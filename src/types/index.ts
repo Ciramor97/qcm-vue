@@ -2,7 +2,7 @@ type UserInfos = {
   email: string;
   firstname: string;
   lastname: string;
-  postalCode: number;
+  postalCode: string;
   phone: string;
   adress: string;
   payment_mode: string;
@@ -18,9 +18,24 @@ type Quiz = {
   parentAnswer: string;
   answers: Answer[];
 };
-type Order = {
+type CreateOrder = {
   userInfos: UserInfos | null;
   quizAnswers: { [key: string]: string } | null;
 };
 
-export { UserInfos, Quiz, Order };
+type GetOrderList = {
+  _id: string;
+  userInfos: {
+    firstname: string;
+    lastname: string;
+  };
+  createdAt: string;
+};
+
+type GetQuizAnswer = Answer & { answer: string };
+type GetOrder = {
+  quiz: GetQuizAnswer[];
+  user: UserInfos;
+};
+
+export { UserInfos, Quiz, CreateOrder, GetOrder, GetOrderList };

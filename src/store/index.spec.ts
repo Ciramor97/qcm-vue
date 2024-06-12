@@ -6,21 +6,9 @@ import {
   initTab,
   tab,
   mockedQuizData,
-  mockedGetOrderList,
   mockedUser,
+  quizAnswersAfterCleanState,
 } from "./index.fixture";
-vi.mock("@/hooks/backProduct", () => {
-  const BackProduct = {
-    get: vi.fn().mockImplementation(() => {
-      return { data: mockedProduct };
-    }),
-
-    create: vi.fn().mockImplementation(() => {
-      return { data: mockedOrder };
-    }),
-  };
-  return { BackProduct: BackProduct };
-});
 
 describe("[store/quiz.store]", () => {
   beforeEach(() => {
@@ -28,54 +16,40 @@ describe("[store/quiz.store]", () => {
     vi.clearAllMocks();
   });
 
-  it("should set product quantity and update totalOrderAmount", async () => {
-    const orderStore = useOrderStore();
+  it("should add user answer to quiz, cleanState, set user infos and create order", async () => {
     const store = useQuizStore();
-    const productStore = useProductStore();
-    expect(orderStore.orderProducts).toEqual(initMockedOrderProducts.value);
+
+    // init values
     expect(store.items).toEqual(initItems.value);
     expect(store.tab).toEqual(initTab);
     expect(store.quizData.quizAnswers).toEqual(null);
     expect(store.quizData.userInfos).toEqual(null);
 
     await store.getQuiz();
-    expect(orderStore.totalOrderAmount).toEqual(totalOrderAmount.value);
-    productStore.product = mockedProductToOrder;
-    expect(BackCustOrder.get).toHaveBeenCalledTimes(1);
-    expect(orderStore.items.length).toEqual(19);
 
-    orderStore.addProduct();
-    await store.addAnswer("66663359c71ed5439e6bb6f2", "WC");
-    await store.addAnswer(
-      "6666371ec71ed5439e6bb705",
-      "Engorgement(WC bouchés)"
-    );
-    await store.addAnswer("6666cb3fd5aa9c44af52c727", "WC simple");
-    expect(orderStore.tab.length).toEqual(3);
-    expect(orderStore.tab).toEqual(tab);
-    expect(orderStore.quizData.quizAnswers).toEqual(mockedQuizData.quizAnswers);
+    // adding user answer to quiz
+    store.addAnswer("66663358c71ed5439e6bb6f0", "Douche");
+    store.addAnswer("6666c8c5d5aa9c44af52c70b", "Fuite de douche");
+    store.addAnswer("6666ce3ed5aa9c44af52c766", "Du robinet");
+    expect(store.tab.length).toEqual(3);
+    expect(store.tab).toEqual(tab);
+    expect(store.quizData.quizAnswers).toEqual(mockedQuizData.quizAnswers);
 
-    await store.cleanState("6666cb3fd5aa9c44af52c727");
-    expect(store.tab.length).toEqual(2);
-    expect(orderStore.tab).toEqual(
-      tab.filter((id) => id == "6666cb3fd5aa9c44af52c727")
-    );
-    await store.addAnswer(
-      "6666371ec71ed5439e6bb705",
-      "Engorgement(WC bouchés)"
-    );
+    // clean the state to update user choice
+    store.cleanState("6666ce3ed5aa9c44af52c766");
+    store.cleanState("6666c8c5d5aa9c44af52c70b");
 
-    await store.setUserInfos(mockedUser);
-    expect(orderStore.quizData.userInfos).toEqual(mockedQuizData.userInfos);
+    // adding different answer
+    store.addAnswer("6666c8c5d5aa9c44af52c70b", "Fuite de baignoire");
+    store.addAnswer("6666ce50d5aa9c44af52c76f", "Du tuyau d'évacuation ");
+    expect(store.quizData.quizAnswers).toEqual(quizAnswersAfterCleanState);
 
-    await store.makeOrder();
-    expect(BackCustOrder.get).toHaveBeenCalledTimes(1);
+    // setting user informations
+    store.setUserInfos(mockedUser);
+    expect(store.quizData.userInfos).toEqual(mockedQuizData.userInfos);
 
-    expect(orderStore.orderProducts).toEqual(mockedOrderProducts.value);
-    orderStore.setProductQuantity("A0220200207000012561", 4);
-    expect(orderStore.orderProducts).toEqual(mockedOrderProductsQuantity.value);
-    expect(orderStore.totalOrderAmount).toEqual(30);
-    orderStore.deleteProduct("A0220200207000012561");
-    expect(orderStore.totalOrderAmount).toEqual(0);
+    // get success when create order
+    const response = await store.makeOrder();
+    expect(response?.status).toEqual(201);
   });
 });

@@ -1,12 +1,12 @@
 import { defineStore } from "pinia";
 import { ref, reactive } from "vue";
 import axiosInstance from "../api/index";
-import { UserInfos, Quiz, Order } from "../types/index";
+import { UserInfos, Quiz, CreateOrder } from "../types/index";
 
 export const useQuizStore = defineStore(
   "quiz",
   () => {
-    const quizData = reactive<Order>({
+    const quizData = reactive<CreateOrder>({
       userInfos: null,
       quizAnswers: null,
     });
@@ -14,13 +14,16 @@ export const useQuizStore = defineStore(
 
     let items = ref<Quiz[]>([]);
 
-    function addAnswer(id: string, label: string) {
+    const PLOMBERIE_ID = "66663358c71ed5439e6bb6f0";
+
+    function addAnswer(quizId: string, label: string) {
       quizData.quizAnswers = quizData.quizAnswers ?? {};
 
-      quizData.quizAnswers[id] = label;
+      quizData.quizAnswers[quizId] = label;
       console.log("[ quizData.quizAnswers]==", quizData.quizAnswers);
 
-      tab.push(id);
+      tab.push(quizId);
+      //tab.push(id);
     }
 
     function cleanState(id: string | null) {
@@ -32,7 +35,7 @@ export const useQuizStore = defineStore(
         quizData.quizAnswers = {};
         return;
       }
-      if (tab.includes(id) || id == "66663358c71ed5439e6bb6f0") {
+      if (tab.includes(id) || id == PLOMBERIE_ID) {
         const idx = tab.findIndex((el) => el === id);
 
         if (idx !== tab.length - 1) {
@@ -50,6 +53,7 @@ export const useQuizStore = defineStore(
           });
         }
       }
+      console.log("tab in store==", tab);
     }
 
     function setUserInfos(user: UserInfos) {
@@ -87,12 +91,31 @@ export const useQuizStore = defineStore(
       }
     }
 
+    async function getOrderList() {
+      try {
+        const { data } = await axiosInstance.get("/order");
+        return data;
+      } catch (error) {
+        console.log("error", error);
+      }
+    }
+
+    async function getOrder(id: string) {
+      try {
+        const { data } = await axiosInstance.get(`/order/${id}`);
+        return data;
+      } catch (error) {
+        console.log("error", error);
+      }
+    }
     return {
       setUserInfos,
       addAnswer,
       getQuiz,
-      makeOrder,
       cleanState,
+      makeOrder,
+      getOrderList,
+      getOrder,
       items,
       tab,
       quizData,
@@ -104,3 +127,5 @@ export const useQuizStore = defineStore(
     },
   }
 );
+
+// export { axiosInstance };

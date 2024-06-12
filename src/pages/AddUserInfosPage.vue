@@ -22,119 +22,28 @@
           <div
             class="my-3 mb-8 grid sm:grid-cols-1 md:grid-cols-2 md:gap-4 gap-3"
           >
-            <div>
-              <label
-                class="flex gap-1 text-xs text-left opacity-80 text-black font-semibold"
-                :class="{ 'text-light-pink': errors.firstname }"
-              >
-                Prénom <span class="text-light-pink">*</span>
-              </label>
-
-              <Field
-                name="firstname"
-                class="rounded p-2 border flex-shrink w-full"
-                :class="{ 'border-light-pink': errors.firstname }"
-              />
-              <ErrorMessage
-                name="firstname"
-                :class="{ 'text-light-pink text-[10px]': errors.firstname }"
-              />
-            </div>
-            <div>
-              <label
-                class="flex gap-1 text-xs text-left opacity-80 text-black font-semibold"
-                :class="{ 'text-light-pink': errors.lastname }"
-              >
-                Nom<span class="text-light-pink">*</span>
-              </label>
-
-              <Field
-                name="lastname"
-                class="rounded p-2 border flex-shrink w-full"
-                :class="{ 'border-light-pink': errors.lastname }"
-              />
-              <ErrorMessage
-                name="lastname"
-                :class="{ 'text-light-pink text-[10px]': errors.lastname }"
-              />
-            </div>
-            <div>
-              <label
-                class="flex gap-1 text-xs text-left opacity-80 text-black font-semibold"
-                :class="{ 'text-light-pink': errors.adress }"
-              >
-                Adresse (numéro et voie)<span class="text-light-pink">*</span>
-              </label>
-
-              <Field
-                name="adress"
-                class="rounded p-2 border flex-shrink w-full"
-                :class="{ 'border-light-pink': errors.adress }"
-              />
-              <br />
-              <ErrorMessage
-                name="adress"
-                :class="{ 'text-light-pink text-[10px]': errors.adress }"
-              />
-            </div>
-            <div>
-              <label
-                class="flex gap-1 text-xs text-left opacity-80 text-black font-semibold"
-                :class="{ 'text-light-pink': errors.postalCode }"
-              >
-                Code postal<span class="text-light-pink">*</span>
-              </label>
-
-              <Field
-                name="postalCode"
-                type="number"
-                class="rounded p-2 border w-full"
-                :class="{ 'border-light-pink': errors.postalCode }"
-              />
-              <br />
-              <ErrorMessage
-                name="postalCode"
-                :class="{ 'text-light-pink text-[10px]': errors.postalCode }"
-              />
-            </div>
-            <div>
-              <label
-                class="flex gap-1 text-xs text-left opacity-80 text-black font-semibold"
-                :class="{ 'text-light-pink': errors.phone }"
-              >
-                Téléphone<span class="text-light-pink">*</span>
-              </label>
-
-              <Field
-                name="phone"
-                class="rounded p-2 border w-full"
-                :class="{ 'border-light-pink': errors.phone }"
-              />
-              <br />
-              <ErrorMessage
-                name="phone"
-                :class="{ 'text-light-pink text-[10px]': errors.phone }"
-              />
-            </div>
-            <div>
-              <label
-                class="flex gap-1 text-xs text-left opacity-80 text-black font-semibold"
-                :class="{ 'text-light-pink': errors.email }"
-              >
-                Adresse email<span class="text-light-pink">*</span>
-              </label>
-
-              <Field
-                name="email"
-                class="rounded p-2 border w-full"
-                :class="{ 'border-light-pink': errors.email }"
-              />
-              <br />
-              <ErrorMessage
-                name="email"
-                :class="{ 'text-light-pink text-[10px]': errors.email }"
-              />
-            </div>
+            <BaseInput
+              name="firstname"
+              label="Prénom"
+              :error="errors.firstname"
+            />
+            <BaseInput name="lastname" label="Nom" :error="errors.lastname" />
+            <BaseInput
+              name="adress"
+              label=" Adresse (numéro et voie)"
+              :error="errors.adress"
+            />
+            <BaseInput
+              name="postalCode"
+              label="Code postal"
+              :error="errors.postalCode"
+            />
+            <BaseInput name="phone" label="Téléphone" :error="errors.phone" />
+            <BaseInput
+              name="email"
+              label="Adresse email"
+              :error="errors.email"
+            />
           </div>
 
           <h1>
@@ -147,48 +56,17 @@
 
           <div class="mt-6">
             <div class="gap-2 flex flex-col">
-              <Field
-                name="payment_mode"
-                type="radio"
-                value="PAY_ON_SITE"
-                v-slot="{ field }"
-              >
-                <label for="pay-on-site" class="cursor-pointer">
-                  <div
-                    class="rounded-lg p-4 bg-light-gray font-semibold flex justify-between"
-                  >
-                    Payer sur place
-                    <input
-                      id="pay-on-site"
-                      type="radio"
-                      value="PAY_ON_SITE"
-                      v-bind="field"
-                      class="w-5 h-5 accent-light-pink"
-                    />
-                  </div>
-                </label>
-              </Field>
-              <Field
-                name="payment_mode"
-                type="radio"
+              <BaseRadioInput
                 value="PAY_ON_LINE"
-                v-slot="{ field }"
-              >
-                <label for="pay-on-line" class="cursor-pointer">
-                  <div
-                    class="rounded-lg p-4 bg-light-gray font-semibold flex justify-between"
-                  >
-                    Payer en ligne
-                    <input
-                      id="pay-on-line"
-                      type="radio"
-                      value="PAY_ON_LINE"
-                      v-bind="field"
-                      class="w-5 h-5 accent-light-pink"
-                    />
-                  </div>
-                </label>
-              </Field>
+                id="pay-on-line"
+                label="Payer en ligne"
+              />
+              <BaseRadioInput
+                value="PAY_ON_SIE"
+                id="pay-on-site"
+                label="Payer sur place"
+              />
+
               <span
                 v-if="errors.payment_mode"
                 :class="{ 'text-light-pink text-[10px]': errors.payment_mode }"
@@ -275,7 +153,7 @@
           <h1
             class="text-light-pink text-sm md:text-lg font-semibold text-center md:text-start"
           >
-            Réparation d’une fuite de la vanne principale ou avant la vanne
+            Réparation d'une fuite de la vanne principale ou avant la vanne
           </h1>
           <ul class="py-6 text-sm flex flex-col space-y-1">
             <InterventionInfo
@@ -326,8 +204,10 @@ import EuroCircle from "../components/icons/EuroCircle.vue";
 import CircleValidation from "../components/icons/CircleValidation.vue";
 
 import PreviousStepButton from "../components/Button.vue";
+import BaseInput from "../components/BaseInput.vue";
+import BaseRadioInput from "../components/BaseRadioInput.vue";
+import { Field, Form } from "vee-validate";
 import { ref } from "vue";
-import { Field, Form, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 import ArrowLeftOutline from "../components/icons/ArrowLeftOutline.vue";
 import { useToast } from "vue-toastification";

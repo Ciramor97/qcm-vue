@@ -1,9 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from '../pages/HomePage.vue';
 import QuizPage from '../pages/QuizPage.vue';
-import Summary from '../pages/Summary.vue';
-import UserInfos from '../pages/UserInfos.vue';
-import CraftsmanPage from '../pages/CraftsmanPage.vue';
+import SummaryPage from '../pages/SummaryPage.vue';
+import AddUserInfosPage from '../pages/AddUserInfosPage.vue';
+import OrderListPage from '../pages/OrderListPage.vue';
+import OrderDetailsPage from '../pages/OrderDetailsPage.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -14,24 +15,29 @@ const router = createRouter({
       component: HomePage,
     },
     {
-      path: '/quiz/:id?',
+      path: '/quiz/:id',
       name: 'quiz',
       component: QuizPage,
     },
     {
       path: '/summary',
       name: 'summary',
-      component: Summary,
+      component: SummaryPage,
     },
     {
-      path: '/user-infos',
-      name: 'userInfos',
-      component: UserInfos,
+      path: '/add-user',
+      name: 'user-infos.add',
+      component: AddUserInfosPage,
     },
     {
-      path: '/craftsman',
-      name: 'craftsman',
-      component: CraftsmanPage,
+      path: '/order-list',
+      name: 'order-list',
+      component: OrderListPage,
+    },
+    {
+      path: '/order-details/:id',
+      name: 'order-details',
+      component: OrderDetailsPage,
     },
   ],
 });

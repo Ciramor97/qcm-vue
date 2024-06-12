@@ -19,12 +19,12 @@
       <PreviousStepButton
         :with-border="true"
         label="Etape précédente"
-        @click="goToPreviousStep"
+        @click="router.back()"
         ><ArrowLeftOutline
       /></PreviousStepButton>
     </div>
     <ul
-      class="bg-lightGreen p-10 mx-10 mb-20 rounded-lg flex flex-col gap-2 text-secondary text-sm list-none"
+      class="bg-light-green p-10 mx-10 mb-20 rounded-lg flex flex-col gap-2 text-secondary text-sm list-none"
     >
       <li class="flex items-center gap-2">
         <Check />
@@ -53,136 +53,71 @@
 <script setup lang="ts">
 import Separator from "../components/icons/Separator.vue";
 import AnswerCard from "../components/AnswerCard.vue";
-import PreviousStepButton from "../components/PreviousStepButton.vue";
+import PreviousStepButton from "../components/Button.vue";
 import Check from "../components/icons/Check.vue";
 import { reactive, onMounted, watch, ref } from "vue";
 import ArrowLeftOutline from "../components/icons/ArrowLeftOutline.vue";
 
-import { useAnswerStore } from "../store/answer";
+import { useQuizStore } from "../store";
 
 import { useRouter, useRoute } from "vue-router";
 
 const router = useRouter();
 const route = useRoute();
-const answerStore = useAnswerStore();
+const answerStore = useQuizStore();
 
-const routeId = ref(route.params.id || 1); // replace 1 by the first quiz id
-// const items = reactive([
-//   {
-//     id: 1,
-//     question: "Où se situe votre problème ?",
-//     answers: [
-//       {
-//         id: 2,
-//         label: "WC",
-//       },
-//       {
-//         id: 3,
-//         label: "Douche/Baignoire",
-//       },
-//     ],
-//   },
-//   {
-//     id: 2,
-//     question: "Quelle est la nature de votre problème ?",
-//     answers: [
-//       {
-//         id: 5,
-//         label: "Engorgement (WC bouchés)",
-//       },
-//       {
-//         id: 6,
-//         label: "Fuite (recherche de fuite)",
-//       },
-//     ],
-//   },
-//   {
-//     id: 3,
-//     question: "Quelle est la nature de votre problème ?",
-//     answers: [
-//       {
-//         id: 7,
-//         label: "Engorgement (Douches bouchés)",
-//       },
-//       {
-//         id: 8,
-//         label: "Douche à nettoyer",
-//       },
-//     ],
-//   },
-//   {
-//     id: 5,
-//     question: "Votre WC possède t-il un sanibroyeur ?",
-//     answers: [
-//       {
-//         id: 9,
-//         label: "Oui",
-//       },
-//       {
-//         id: 10,
-//         label: "Non",
-//       },
-//     ],
-//   },
-// ]);
+const routeId = ref(route.params.id || "66663358c71ed5439e6bb6f0"); // replace 1 by the first quiz id
 
 let currentQuiz = reactive(answerStore.items[0]);
 
 function selectAnswer(id: string, label: string) {
-  // const foundItem = items.find((item) => item.id == id); //back request to get the new items object
-  console.log("id");
+  answerStore.addAnswer(currentQuiz.id, label);
 
-  //keep it
-  answerStore.addAnswer(id, label);
-
-  if (answerStore.items.some((q) => q.id === +id)) {
-    console.log(
-      "go next==",
-      id,
-      "===answeer==",
-      answerStore.formData.quizAnswers
-    );
-
+  if (answerStore.items.some((q) => q.parentAnswer == id)) {
     router.push({ name: "quiz", params: { id } });
-    console.log("can u come here=====");
   } else {
     router.push({ name: "summary" });
   }
-}
-
-function goToPreviousStep() {
-  router.back();
 }
 
 watch(
   () => route.params.id,
   (newId) => {
     console.log(`new Id is ${newId}`);
-    loadQuiz(+newId);
-    answerStore.cleanState(+newId);
-    console.log("====", answerStore.formData.quizAnswers);
+
+    loadQuiz(newId as string);
+    //  answerStore.cleanState(newId);
+    answerStore.cleanState(currentQuiz.id);
+    console.log(
+      "==== answerStore.quizData.quizAnswers",
+      answerStore.quizData.quizAnswers
+    );
   },
   {
     immediate: true,
   }
 );
 
-function loadQuiz(id: number) {
-  console.log("answerStore.items==", answerStore.items);
+function loadQuiz(id: string) {
+  const isFirstQuiz = answerStore.items.find(
+    (item) => item.id == id
+  )?.parentAnswer;
 
-  const data = answerStore.items.find((item) => item.id == id);
-  console.log("data=loadquiz", data);
+  if (isFirstQuiz === null) {
+    currentQuiz = answerStore.items[0];
+  } else {
+    const data = answerStore.items.find((item) => item.parentAnswer == id);
+    console.log("data=loadquiz", data);
 
-  if (data) {
-    currentQuiz = data;
+    if (data) {
+      currentQuiz = data;
+    }
   }
   console.log("data=loadquiz currentQuiz==", currentQuiz);
 }
 
 onMounted(() => {
-  console.log("route Id===", routeId.value);
-
-  loadQuiz(routeId.value as any);
+  loadQuiz(routeId.value as string);
 });
 </script>
 

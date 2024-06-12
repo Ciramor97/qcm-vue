@@ -19,7 +19,7 @@
           <br />
           <br />
           <ul>
-            <li v-for="item in answerStore.formData.quizAnswers">{{ item }}</li>
+            <li v-for="item in usersAnswers">{{ item }}</li>
           </ul>
           - Les frais de déplacement et de main-d'œuvre,
           <br />
@@ -44,8 +44,8 @@
         </p>
       </div>
       <div class="md:w-1/3 w-full">
-        <div class="bg-rose shadow-custom p-4">
-          <h1 class="text-roseLight text-base md:text-xl lg:text-2xl font-semibold">
+        <div class="bg-pink shadow-custom p-4">
+          <h1 class="text-light-pink text-base md:text-xl lg:text-2xl font-semibold">
             Réparation d’une fuite de la vanne principale ou avant la vanne
           </h1>
           <ul class="py-6 text-sm flex flex-col space-y-1">
@@ -59,7 +59,7 @@
           <PreviousButton
             :withBorder="false"
             label="Demander une intervention"
-            @click="router.push({ name: 'userInfos' })"
+            @click="router.push({ name: 'user-infos.add' })"
           />
         </div>
         <p class="text-[10px] pt-6 rounded-lg">
@@ -78,17 +78,24 @@
 </template>
 
 <script setup lang="ts">
+import {computed} from "vue"
 import InterventionInfo from "../components/InterventionInfo.vue";
 
 import EuroCircle from "../components/icons/EuroCircle.vue";
 import CircleValidation from "../components/icons/CircleValidation.vue";
-import PreviousButton from "../components/PreviousStepButton.vue";
-import EmptyImg from "../components/EmptyImg.vue";
-
-import { useAnswerStore } from "../store/answer";
-
-const answerStore = useAnswerStore();
+import PreviousButton from "../components/Button.vue";
+import EmptyImg from "../components/icons/EmptyImg.vue";
 import { useRouter } from "vue-router";
+
+import { useQuizStore } from "../store"
+
+const answerStore = useQuizStore();
+
+const usersAnswers = computed(()=>{
+  if(answerStore.quizData.quizAnswers)
+  return Object.values(answerStore.quizData.quizAnswers)
+})
+const router = useRouter();
 
 const interventionInfos = [
   { icon: EuroCircle, label: "Entre 150€ et 300€ TTC" },
@@ -99,5 +106,4 @@ const interventionInfos = [
   { icon: CircleValidation, label: "Main d’oeuvre" },
 ];
 
-const router = useRouter();
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <li
+  <div
     class="bg-pink px-[17px] py-[15px] rounded-lg shadow-custom flex flex-col items-center hover:bg-light-pink"
     @mouseover="isHovered = true"
     @mouseleave="isHovered = false"
@@ -13,7 +13,7 @@
     >
       {{ title }}
     </div>
-  </li>
+  </div>
 </template>
 
 <script setup lang="ts">

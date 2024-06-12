@@ -10,12 +10,12 @@
         <Separator color="#FFF" />
       </div>
       <!-- improve: replace id string by const -->
-      <ul
+      <div
         class="grid grid-cols-2 md:grid-cols-3 mb-20 gap-4 hover:cursor-pointer list-none"
         @click="
           router.push({
             name: 'quiz',
-            params: { id: '66663358c71ed5439e6bb6f0' },
+            params: { id: PLOMBERIE_ID },
           })
         "
       >
@@ -27,15 +27,14 @@
           bg-color="#FF445F"
           hover-bg-color="#FFF"
         />
-      </ul>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-
-import HomeCard from "../components/HomeCard.vue";
+import { PLOMBERIE_ID } from "../constants";
 
 import Separator from "../components/icons/Separator.vue";
 import Plomberie from "../components/icons/Plomberie.vue";
@@ -45,7 +44,10 @@ import Serrurerie from "../components/icons/Serrurerie.vue";
 import Vitrerie from "../components/icons/Vitrerie.vue";
 import Electromenager from "../components/icons/Electromenager.vue";
 
-import { useQuizStore } from "../store";
+import HomeCard from "../components/HomeCard.vue";
+
+import { useOrderStore } from "../store/index";
+import { useQuizStore } from "../store/quiz";
 
 import { useRouter } from "vue-router";
 
@@ -61,7 +63,7 @@ const typeOfProblem = [
 ];
 
 onMounted(() => {
-  useQuizStore().cleanState(null);
+  useOrderStore().cleanState(null);
   useQuizStore().getQuiz();
 });
 </script>

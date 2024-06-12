@@ -141,6 +141,7 @@
               /></PreviousStepButton>
 
               <PreviousStepButton
+                :loading="loading"
                 :with-border="false"
                 label="Passer commande et payer en ligne"
               />
@@ -199,40 +200,41 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
+import EuroIcon from "../components/icons/EuroIcon.vue";
+import CircleCheckIcon from "../components/icons/CircleCheckIcon.vue";
+import ArrowLeftOutline from "../components/icons/ArrowLeftOutline.vue";
 import InterventionInfo from "../components/InterventionInfo.vue";
-import EuroCircle from "../components/icons/EuroCircle.vue";
-import CircleValidation from "../components/icons/CircleValidation.vue";
-
 import PreviousStepButton from "../components/Button.vue";
 import BaseInput from "../components/BaseInput.vue";
 import BaseRadioInput from "../components/BaseRadioInput.vue";
-import { Field, Form } from "vee-validate";
-import { ref } from "vue";
+
+import { Form } from "vee-validate";
 import * as yup from "yup";
-import ArrowLeftOutline from "../components/icons/ArrowLeftOutline.vue";
+
 import { useToast } from "vue-toastification";
 
 import { useRouter } from "vue-router";
-import { useQuizStore } from "../store";
+import { useOrderStore } from "../store/index";
 
 const interventionInfos = [
-  { icon: EuroCircle, label: "Entre 150€ et 300€ TTC" },
-  { icon: CircleValidation, label: "Gros matériel" },
-  { icon: CircleValidation, label: "Déplacement" },
-  { icon: CircleValidation, label: "Petites fournitures" },
-  { icon: CircleValidation, label: "Nettoyage du chantier" },
-  { icon: CircleValidation, label: "Main d’oeuvre" },
+  { icon: EuroIcon, label: "Entre 150€ et 300€ TTC" },
+  { icon: CircleCheckIcon, label: "Gros matériel" },
+  { icon: CircleCheckIcon, label: "Déplacement" },
+  { icon: CircleCheckIcon, label: "Petites fournitures" },
+  { icon: CircleCheckIcon, label: "Nettoyage du chantier" },
+  { icon: CircleCheckIcon, label: "Main d’oeuvre" },
 ];
 
 const useTerms = ref<string[]>([]);
-
-const toast = useToast();
-
-const router = useRouter();
-const answerStore = useQuizStore();
-
 const errorUseTermMessage = ref<string | null>(null);
 const showPhoneNumber = ref(true);
+const loading = ref(false);
+
+const toast = useToast();
+const router = useRouter();
+const orderStore = useOrderStore();
+
 const schema = yup.object({
   email: yup
     .string()
@@ -253,22 +255,25 @@ async function onSubmit(values, { resetForm }) {
   }
   // console.log("SUBMIT VALUE==", v, "useTerms==", useTerms.value);
 
-  useTerms.value = [];
-  errorUseTermMessage.value = null;
-  answerStore.setUserInfos(values);
-  const order = await answerStore.makeOrder();
+  orderStore.setUserInfos(values);
+  loading.value = true;
+  const order = await orderStore.makeOrder();
+  loading.value = false;
   if (order?.status == 201) {
+    useTerms.value = [];
+    errorUseTermMessage.value = null;
     toast.success("Votre commande a été passée avec succès", {
-      timeout: 1500,
+      timeout: 1000,
     });
     router.push({ name: "home" });
     resetForm();
+  } else {
+    toast.error(
+      "Une erreur est intervenue lors de la création de la commande",
+      {
+        timeout: 1000,
+      }
+    );
   }
 }
 </script>
-
-<style>
-.hide {
-  display: none;
-}
-</style>

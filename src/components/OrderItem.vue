@@ -1,5 +1,5 @@
 <template>
-  <li
+  <div
     class="bg-light-gray p-2 text-secondary hover:text-light-pink rounded-lg hover:cursor-pointer transition ease-in-out delay-150 duration-300 hover:bg-pink"
   >
     <div class="flex justify-between">
@@ -11,7 +11,7 @@
     <div class="italic text-xs pt-1">
       Commande du {{ formatDateDDMMYYYY(order.createdAt) }}
     </div>
-  </li>
+  </div>
 </template>
 
 <script setup lang="ts">

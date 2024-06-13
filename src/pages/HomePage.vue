@@ -1,15 +1,12 @@
 <template>
-  <div
-    class="bg-secondary w-full h-full flex flex-col items-center rounded-t-lg"
-  >
-    <div class="pt-20 flex flex-col items-center">
+  <div class="bg-secondary flex flex-col items-center rounded-t-lg pb-20">
+    <div class="md:pt-20 pt-10 flex flex-col items-center">
       <h1 class="md:text-4xl font-bold text-white text-center text-xl">
         Mon problème concerne :
       </h1>
       <div class="py-6">
         <Separator color="#FFF" />
       </div>
-      <!-- improve: replace id string by const -->
       <div
         class="grid grid-cols-2 md:grid-cols-3 mb-20 gap-4 hover:cursor-pointer list-none"
         @click="
@@ -63,7 +60,7 @@ const typeOfProblem = [
 ];
 
 onMounted(() => {
-  useOrderStore().cleanState(null);
   useQuizStore().getQuiz();
+  useOrderStore().cleanState(null);
 });
 </script>

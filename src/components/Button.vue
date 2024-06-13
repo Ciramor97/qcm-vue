@@ -1,11 +1,14 @@
 <template>
   <button
-    class="lg:p-2 md:p-3 p-2 text-sm rounded-[43px] flex sm:gap-2 md:flex-row items-center hover:text-light-pink justify-center"
-    :class="
-      withBorder
+    :disabled="disable"
+    class="lg:p-2 md:p-3 p-2 text-sm rounded-[43px] flex sm:gap-2 md:flex-row items-center justify-center"
+    :class="[
+      disable
+        ? 'bg-light-gray text-gray-400'
+        : withBorder
         ? 'text-light-pink bg-white border-light-pink border hover:bg-pink'
-        : 'text-white bg-light-pink hover:bg-dark-pink hover:text-white'
-    "
+        : 'text-white bg-light-pink hover:bg-dark-pink hover:text-white',
+    ]"
   >
     <slot> </slot>
     <span v-if="loading" class="loader"></span>
@@ -18,6 +21,7 @@ defineProps<{
   label: string;
   withBorder: boolean;
   loading?: boolean;
+  disable?: boolean;
 }>();
 </script>
 

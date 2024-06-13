@@ -1,14 +1,11 @@
 import { defineStore } from "pinia";
-import { reactive, ref } from "vue";
+import { reactive } from "vue";
 import axiosInstance from "../api/index";
 import { UserInfos, CreateOrder } from "../types/index";
-import { useQuizStore } from "./quiz";
 import { PLOMBERIE_ID } from "../constants";
 export const useOrderStore = defineStore(
   "order",
   () => {
-    const quizStore = useQuizStore();
-    const items = ref(quizStore.items);
     const orderData = reactive<CreateOrder>({
       userInfos: null,
       quizAnswers: null,
@@ -19,16 +16,11 @@ export const useOrderStore = defineStore(
       orderData.quizAnswers = orderData.quizAnswers ?? {};
 
       orderData.quizAnswers[quizId] = label;
-      console.log("[ orderData.quizAnswers]==", orderData.quizAnswers);
 
       tab.push(quizId);
-      //tab.push(id);
     }
 
     function cleanState(id: string | null) {
-      console.log("id to clean", id);
-      console.log("tab", tab);
-
       if (!id) {
         tab = [];
         orderData.quizAnswers = {};
@@ -52,7 +44,6 @@ export const useOrderStore = defineStore(
           });
         }
       }
-      console.log("tab in store==", tab);
     }
 
     function setUserInfos(user: UserInfos) {
@@ -96,14 +87,11 @@ export const useOrderStore = defineStore(
       getOrder,
       tab,
       orderData,
-      items,
     };
   },
   {
     persist: {
-      key: "store-key",
+      key: "order-key",
     },
   }
 );
-
-// export { axiosInstance };

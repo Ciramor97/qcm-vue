@@ -1,12 +1,14 @@
 <template>
-  <div class="bg-[#F2F2F2] flex flex-col pt-20 md:px-12 lg:px-[150px]">
-    <div class="pt-4 gap-3 mb-3 flex flex-col items-center">
+  <div
+    class="bg-light-gray flex flex-col pt-10 pb-20 md:pt-20 md:px-12 lg:px-[150px]"
+  >
+    <div class="pt-4 md:gap-3 md:mb-3 flex flex-col items-center">
       <h1
-        class="text-black text-2xl md:text-[34px] leading-[51px] font-bold text-center"
+        class="text-black md:text-2xl text-sm leading-[51px] font-bold text-center"
       >
         {{ currentQuiz.question }}
       </h1>
-      <Separator color="#FF445F" />
+      <Separator color="#FF445F" class="w-14 md:w-full" />
     </div>
     <div class="bg-white px-8 py-[38px] mx-10 my-4 rounded-lg shadow-custom">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-2 list-none">
@@ -60,21 +62,24 @@ import PreviousStepButton from "../components/Button.vue";
 import AnswerCard from "../components/AnswerCard.vue";
 
 import { useOrderStore } from "../store/index";
+import { useQuizStore } from "../store/quiz";
 
 import { useRouter, useRoute } from "vue-router";
+import { PLOMBERIE_ID } from "../constants";
 
 const router = useRouter();
 const route = useRoute();
 const orderStore = useOrderStore();
+const quizStore = useQuizStore();
 
-const routeId = ref(route.params.id || "66663358c71ed5439e6bb6f0"); // replace 1 by the first quiz id
+const routeId = ref(route.params.id || PLOMBERIE_ID);
 
-let currentQuiz = reactive(orderStore.items[0]);
+let currentQuiz = reactive(quizStore.items[0]);
 
 function selectAnswer(id: string, label: string) {
   orderStore.addAnswer(currentQuiz.id, label);
 
-  if (orderStore.items.some((q) => q.parentAnswer == id)) {
+  if (quizStore.items.some((q) => q.parentAnswer == id)) {
     router.push({ name: "quiz", params: { id } });
   } else {
     router.push({ name: "summary" });
@@ -84,15 +89,9 @@ function selectAnswer(id: string, label: string) {
 watch(
   () => route.params.id,
   (newId) => {
-    console.log(`new Id is ${newId}`);
-
     loadQuiz(newId as string);
-    //  orderStore.cleanState(newId);
+
     orderStore.cleanState(currentQuiz.id);
-    console.log(
-      "==== orderStore.orderData.quizAnswers",
-      orderStore.orderData.quizAnswers
-    );
   },
   {
     immediate: true,
@@ -100,21 +99,15 @@ watch(
 );
 
 function loadQuiz(id: string) {
-  const isFirstQuiz = orderStore.items.find(
-    (item) => item.id == id
-  )?.parentAnswer;
-
-  if (isFirstQuiz === null) {
-    currentQuiz = orderStore.items[0];
+  if (id === PLOMBERIE_ID) {
+    currentQuiz = quizStore.items[0];
   } else {
-    const data = orderStore.items.find((item) => item.parentAnswer == id);
-    console.log("data=loadquiz", data);
+    const data = quizStore.items.find((item) => item.parentAnswer == id);
 
     if (data) {
       currentQuiz = data;
     }
   }
-  console.log("data=loadquiz currentQuiz==", currentQuiz);
 }
 
 onMounted(() => {

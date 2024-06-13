@@ -22,7 +22,7 @@ describe("[store/orderStore]", () => {
     const quizStore = useQuizStore();
 
     // init values
-    expect(orderStore.items).toEqual(initItems.value);
+    expect(quizStore.items).toEqual(initItems.value);
     expect(orderStore.tab).toEqual(initTab);
     expect(orderStore.orderData.quizAnswers).toEqual(null);
     expect(orderStore.orderData.userInfos).toEqual(null);

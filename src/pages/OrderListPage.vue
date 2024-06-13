@@ -1,8 +1,8 @@
 <template>
   <div class="bg-[#F2F2F2] flex flex-col py-20 md:px-12 lg:px-[150px]">
-    <div class="py-4 gap-3 mb-3 flex flex-col items-center">
+    <div class="py-4 md:gap-3 md:mb-3 flex flex-col items-center">
       <h1
-        class="text-black text-2xl md:text-[34px] leading-[51px] font-bold text-center"
+        class="text-black text-sm md:text-2xl leading-[51px] font-bold text-center"
       >
         Liste des commandes
       </h1>

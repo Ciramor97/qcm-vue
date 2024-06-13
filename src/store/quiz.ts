@@ -21,7 +21,6 @@ export const useQuizStore = defineStore(
             label: answer.label,
           })),
         }));
-        console.log("data from server MAP", items.value);
 
         return items.value;
       } catch (error) {}
@@ -29,7 +28,6 @@ export const useQuizStore = defineStore(
 
     return {
       getQuiz,
-
       items,
     };
   },

@@ -53,7 +53,6 @@
             >
             <span class="font-semibold text-lg">Modes de paiement</span>
           </h1>
-
           <div class="mt-6">
             <div class="gap-2 flex flex-col">
               <BaseRadioInput
@@ -62,7 +61,7 @@
                 label="Payer en ligne"
               />
               <BaseRadioInput
-                value="PAY_ON_SIE"
+                value="PAY_ON_SITE"
                 id="pay-on-site"
                 label="Payer sur place"
               />
@@ -201,6 +200,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+
 import EuroIcon from "../components/icons/EuroIcon.vue";
 import CircleCheckIcon from "../components/icons/CircleCheckIcon.vue";
 import ArrowLeftOutline from "../components/icons/ArrowLeftOutline.vue";
@@ -209,13 +209,17 @@ import PreviousStepButton from "../components/Button.vue";
 import BaseInput from "../components/BaseInput.vue";
 import BaseRadioInput from "../components/BaseRadioInput.vue";
 
-import { Form } from "vee-validate";
+import { Form, useForm } from "vee-validate";
 import * as yup from "yup";
 
 import { useToast } from "vue-toastification";
 
 import { useRouter } from "vue-router";
 import { useOrderStore } from "../store/index";
+
+const toast = useToast();
+const router = useRouter();
+const orderStore = useOrderStore();
 
 const interventionInfos = [
   { icon: EuroIcon, label: "Entre 150€ et 300€ TTC" },
@@ -230,10 +234,6 @@ const useTerms = ref<string[]>([]);
 const errorUseTermMessage = ref<string | null>(null);
 const showPhoneNumber = ref(true);
 const loading = ref(false);
-
-const toast = useToast();
-const router = useRouter();
-const orderStore = useOrderStore();
 
 const schema = yup.object({
   email: yup
@@ -253,7 +253,6 @@ async function onSubmit(values, { resetForm }) {
     errorUseTermMessage.value = "Veuillez accepter les termes d'utilisation";
     return;
   }
-  // console.log("SUBMIT VALUE==", v, "useTerms==", useTerms.value);
 
   orderStore.setUserInfos(values);
   loading.value = true;

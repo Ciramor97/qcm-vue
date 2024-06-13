@@ -1,12 +1,14 @@
 <template>
-  <div class="bg-[#F2F2F2] flex flex-col py-20 md:px-12 lg:px-[150px]">
-    <div class="pt-4 gap-3 mb-3 flex flex-col items-center">
+  <div
+    class="bg-[#F2F2F2] flex flex-col pt-10 pb-20 h-full md:py-20 md:px-12 lg:px-[150px]"
+  >
+    <div class="pt-4 md:gap-3 md:mb-3 flex flex-col items-center">
       <h1
-        class="text-black text-2xl md:text-[34px] leading-[51px] font-bold text-center"
+        class="text-black text-sm md:text-2xl leading-[51px] font-bold text-center"
       >
         Informations de la commande
       </h1>
-      <Separator color="#FF445F" />
+      <Separator color="#FF445F" class="w-14 md:w-full" />
     </div>
 
     <div
@@ -18,9 +20,11 @@
           class="bg-light-pink px-2 text-white font-extrabold text-center mr-2"
           >1</span
         >
-        <span class="font-semibold text-lg">Informations du client</span>
+        <span class="font-semibold text-sm md:text-lg"
+          >Informations du client</span
+        >
       </h1>
-      <div class="grid gap-2 md:grid-cols-2 md:gap-4 py-2">
+      <div class="grid gap-2 grid-cols-2 md:gap-4 py-2">
         <div>
           <p>Nom</p>
           <p class="text-sm">{{ order.user.firstname }}</p>
@@ -44,7 +48,7 @@
           class="bg-light-pink px-2 text-white font-extrabold text-center mr-2"
           >2</span
         >
-        <span class="font-semibold text-lg">Réponses du client</span>
+        <span class="font-semibold text-sm md:text-lg">Réponses du client</span>
       </h1>
       <div class="py-2 gap-2">
         <div v-for="item in order.quiz" class="mb-3">

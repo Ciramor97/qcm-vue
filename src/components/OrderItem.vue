@@ -4,7 +4,7 @@
   >
     <div class="flex justify-between">
       <span
-        >{{ order.userInfos.firstname }} {{ order.userInfos.firstname }}</span
+        >{{ order.userInfos.firstname }} {{ order.userInfos.lastname }}</span
       >
       <ArrowRight />
     </div>
